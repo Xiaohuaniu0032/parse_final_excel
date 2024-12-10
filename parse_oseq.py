@@ -17,5 +17,6 @@ for sheet_name in workbook.sheetnames:
 
     # 遍历当前工作表的行
     for row in sheet.iter_rows(values_only=True):
+        print(row)
         row_str = '\t'.join(row)
         of.write(row_str+'\n')
