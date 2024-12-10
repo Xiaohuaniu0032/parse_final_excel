@@ -24,18 +24,25 @@ foreach my $sheet (@{$excel->{Worksheet}}){
     my $sheet_name = $sheet->{Name};
     print "工作表名称: $sheet_name\n";
 
+    my ($row_min, $row_max) = $sheet->row_range();
+    my ($col_min, $col_max) = $sheet->col_range();
+
+    print "$row_min $row_max\n";
+
     my $sample_sheet_file = "$outdir/$sample_name\_$sheet_name.oseq.parsed.xls";
     open O, ">$sample_sheet_file" or die;
 
-    for my $row ($sheet->{MinRow} .. $sheet->{MaxRow}) {
+    foreach my $row ($sheet->{MinRow} .. $sheet->{MaxRow}) {
+        print "$row\n";
         my @row_data;
-        for my $col ($sheet->{MinCol} .. $sheet->{MaxCol}) {
+        foreach my $col ($sheet->{MinCol} .. $sheet->{MaxCol}) {
             my $cell = $sheet->{Cells}[$row][$col];
             my $cell_value = $cell->{Val};
             #print "Row: $row, Col: $col, Value: $cell_value\n";
             push @row_data, $cell_value;
         }
         my $row_data = join "\t", @row_data;
+        print "$row_data\n";
         print O "$row_data\n";
     }
     close O;
